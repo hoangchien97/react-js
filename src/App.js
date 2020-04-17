@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.scss';
 import TodoList from './components/TodoList/TodoList';
+import TodoForm from './components/TodoForm';
 
 function App() {
   const [todoList, setTodoList] = useState([
@@ -10,24 +11,28 @@ function App() {
   ]);
 
   function handleTodoClick(todo) {
-    // c1
     const newTodoList = todoList.filter(x => x.id !== todo.id)
     setTodoList(newTodoList)
-
-    // c2
-    // const index = todoList.findIndex(x => x.id === todo.id)
-    // // tim thay return > 0. k tim thay return -1
-    // if (index < 0) return;
-    // const newTodoList = [...todoList]
-    // newTodoList.splice(index, 1)
-    // setTodoList(newTodoList)
   }
 
+  function handleTodoFormClick(formValues) {
+    // console.log("form values", formValues);
+    // ada new todo to current todo list
+    const newTodo = {
+      id: todoList.length + 1,
+      // title: formVaues
+      ...formValues // lấy hết obj
+    }
+    const newTodoList = [...todoList]
+    newTodoList.push(newTodo)
+    setTodoList(newTodoList)
+  }
 
   return (
     <div className="app">
       <h1>Welcom to React Hooks!</h1>
       {/* < + ten Component. auto import */}
+      <TodoForm onSubmit={handleTodoFormClick}></TodoForm>
       <TodoList todos={todoList} onTodoClick={handleTodoClick}></TodoList>
     </div>
   );
